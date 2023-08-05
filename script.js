@@ -18,7 +18,7 @@ const toggleBtn = document.querySelector(".toggle-btn");
 let skillsPlayed = false;
 
 window.addEventListener("scroll", () => {
- /*  activeLink(); */
+  activeLink();
    mlCounter();
   skillCounter();
 });
@@ -35,13 +35,10 @@ function updateCount(num, maxNum){
 }
 
 function isElementInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
+  let topPosition = el.getBoundingClientRect().top;
+
+  if(window.innerHeight >= topPosition + el.offsetHeight) return true;
+  return false;
 }
 
 
@@ -49,12 +46,9 @@ function isElementInViewport(el) {
 /* -------------------------------Sticky Navbar-------------------------------- */
 
 function stickyNavbar(){
-    if (window.scrollY > 0) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
+    header.classList.toggle("scrolled" , window.pageYOffset > 0);
 }
-}
+
 
 stickyNavbar();
 
@@ -177,11 +171,11 @@ const swiper = new Swiper('.swiper', {
 
 /* -------------------------------CHange Active link on Scroll -------------------------------- */
 
-/* function activeLink(){
+function activeLink(){
   let sections = document.querySelectorAll("section[id]");
   let passedSections = Array.from(sections).map((sct, i) =>{
     return  {
-    y: sct.getBoundingClientRect().top - header.offsetHeight*18,
+    y: sct.getBoundingClientRect().top - header.offsetHeight*20,
     id: i,
 };
 }).filter((sct) => sct.y <= 0);
@@ -189,7 +183,7 @@ const swiper = new Swiper('.swiper', {
 let currSectionID = passedSections.at(-1).id;
 links.forEach(l => l.classList.remove("active"));
 links[currSectionID].classList.add("active");
-} */
+}
 
 toggleBtn.addEventListener("click", () => {
   if(!document.body.classList.contains("dark")){
